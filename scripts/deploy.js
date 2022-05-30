@@ -66,11 +66,11 @@ async function main() {
   console.log("initializeZeroEx done")
 
   // 5. migrate features to zeroEx
-  await zeroEx.migrate(
-    eRC721OrdersFeature.address,
-    "0x8fd3ab80",
-    deployer.address
-  );
+  // await zeroEx.migrate(
+  //   eRC721OrdersFeature.address,
+  //   "0x8fd3ab80",
+  //   deployer.address
+  // );
   // await zeroEx.migrate(
   //   eRC1155OrdersFeature.address,
   //   "0x8fd3ab80",
