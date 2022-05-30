@@ -66,47 +66,17 @@ async function main() {
   console.log("initializeZeroEx done")
 
   // 5. migrate features to zeroEx
-  // await zeroEx.migrate(
-  //   eRC721OrdersFeature.address,
-  //   "0x8fd3ab80",
-  //   deployer.address
-  // );
+  await zeroEx.migrate(
+    eRC721OrdersFeature.address,
+    "0x8fd3ab80",
+    deployer.address
+  );
   // await zeroEx.migrate(
   //   eRC1155OrdersFeature.address,
   //   "0x8fd3ab80",
   //   deployer.address
   // );
   // await zeroEx.extend("0x01ffc9a7", eRC165Feature.address);
-
-  // verify
-
-  // await hre.run("verify:verify", {
-  //   address: zeroEx.address,
-  //   constructorArguments: [initialMigration.address],
-  //   contract: "contracts/ZeroEx.sol:ZeroEx"
-  // });
-  // await hre.run("verify:verify", {
-  //   address: ownableFeature.address,
-  //   constructorArguments: [],
-  //   contract: "contracts/OwnableFeature.sol:OwnableFeature"
-  // });
-  // await hre.run("verify:verify", {
-  //   address: SimpleFunctionRegistryFeature.address,
-  //   constructorArguments: [],
-  //   contract: "contracts/SimpleFunctionRegistryFeature.sol:SimpleFunctionRegistryFeature"
-  // });
-  // await hre.run("verify:verify", {
-  //   address: ERC165Feature.address,
-  //   constructorArguments: [],
-  // });
-  // await hre.run("verify:verify", {
-  //   address: ERC721OrdersFeature.address,
-  //   constructorArguments: [zeroEx.address,"0xc778417E063141139Fce010982780140Aa0cD5Ab"],
-  // });
-  // await hre.run("verify:verify", {
-  //   address: ERC1155OrdersFeature.address,
-  //   constructorArguments: [zeroEx.address,"0xc778417E063141139Fce010982780140Aa0cD5Ab"],
-  // });
 }
 
 // We recommend this pattern to be able to use async/await everywhere
