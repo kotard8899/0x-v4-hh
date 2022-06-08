@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 const hre = require("hardhat");
 const { ethers } = hre;
+const ZPABI = require("../ABI/0xProxy.json")
 
 async function main() {
   const [deployer] = await ethers.getSigners();
@@ -34,20 +35,16 @@ async function main() {
 
   // 3. deploy features
   const ownableFeature = await OwnableFeature.deploy();
-  await ownableFeature.deployed();
   console.log("ownableFeature deployed to:", ownableFeature.address);
 
   const simpleFunctionRegistryFeature = await SimpleFunctionRegistryFeature.deploy();
-  await simpleFunctionRegistryFeature.deployed();
   console.log("simpleFunctionRegistryFeature deployed to:", simpleFunctionRegistryFeature.address);
 
   const eRC165Feature = await ERC165Feature.deploy();
-  await eRC165Feature.deployed();
   console.log("eRC165Feature deployed to:", eRC165Feature.address);
 
   // 0xc7784... = rinkeby WETH.address
   const eRC721OrdersFeature = await ERC721OrdersFeature.deploy(zeroEx.address,"0xc778417E063141139Fce010982780140Aa0cD5Ab");
-  await eRC721OrdersFeature.deployed();
   console.log("eRC721OrdersFeature deployed to:", eRC721OrdersFeature.address);
 
   const eRC1155OrdersFeature = await ERC1155OrdersFeature.deploy(zeroEx.address,"0xc778417E063141139Fce010982780140Aa0cD5Ab");
@@ -55,7 +52,7 @@ async function main() {
   console.log("eRC1155OrdersFeature deployed to:",eRC1155OrdersFeature.address);
 
   // 4. initialize zeroEx
-  await initialMigration.initializeZeroEx(
+  const initializeZeroEx = await initialMigration.initializeZeroEx(
     deployer.address,
     zeroEx.address,
     {
@@ -63,20 +60,16 @@ async function main() {
       ownable: ownableFeature.address,
     }
   );
+  await initializeZeroEx.wait()
   console.log("initializeZeroEx done")
+  
+  const zE = new ethers.Contract(zeroEx.address, ZPABI, deployer)
 
   // 5. migrate features to zeroEx
-  // await zeroEx.migrate(
-  //   eRC721OrdersFeature.address,
-  //   "0x8fd3ab80",
-  //   deployer.address
-  // );
-  // await zeroEx.migrate(
-  //   eRC1155OrdersFeature.address,
-  //   "0x8fd3ab80",
-  //   deployer.address
-  // );
-  // await zeroEx.extend("0x01ffc9a7", eRC165Feature.address);
+  await zE.migrate(eRC721OrdersFeature.address, "0x8fd3ab80", deployer.address)
+  await zE.migrate(eRC1155OrdersFeature.address, "0x8fd3ab80", deployer.address)
+  await zE.extend("0x01ffc9a7", eRC165Feature.address)
+  console.log("zeroEx migration done")
 }
 
 // We recommend this pattern to be able to use async/await everywhere

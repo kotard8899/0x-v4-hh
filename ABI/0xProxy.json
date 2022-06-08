@@ -1,0 +1,41 @@
+[{
+  "inputs": [
+    {
+      "internalType": "address",
+      "name": "target",
+      "type": "address"
+    },
+    {
+      "internalType": "bytes",
+      "name": "data",
+      "type": "bytes"
+    },
+    {
+      "internalType": "address",
+      "name": "newOwner",
+      "type": "address"
+    }
+  ],
+  "name": "migrate",
+  "outputs": [],
+  "stateMutability": "nonpayable",
+  "type": "function"
+},
+{
+  "inputs": [
+    {
+      "internalType": "bytes4",
+      "name": "selector",
+      "type": "bytes4"
+    },
+    {
+      "internalType": "address",
+      "name": "impl",
+      "type": "address"
+    }
+  ],
+  "name": "extend",
+  "outputs": [],
+  "stateMutability": "nonpayable",
+  "type": "function"
+}]
