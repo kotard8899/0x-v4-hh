@@ -23,18 +23,58 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
  */
 module.exports = {
   solidity: {
-    version: "0.6.12",
-    settings: {
-      optimizer: {
-        enabled: true,
-        runs: 10000,
+    compilers: [
+      {
+        version: "0.8.14",
+        settings: {
+          viaIR: true,
+          optimizer: {
+            enabled: true,
+            runs: 19066,
+          },
+        },
+      },
+    ],
+    overrides: {
+      "contracts/conduit/Conduit.sol": {
+        version: "0.8.14",
+        settings: {
+          viaIR: true,
+          optimizer: {
+            enabled: true,
+            runs: 1000000,
+          },
+        },
+      },
+      "contracts/conduit/ConduitController.sol": {
+        version: "0.8.14",
+        settings: {
+          viaIR: true,
+          optimizer: {
+            enabled: true,
+            runs: 1000000,
+          },
+        },
       },
     },
   },
   // defaultNetwork: "rinkeby",
   networks: {
     rinkeby: {
+      blockGasLimit: 30_000_000,
       url: process.env.RINKEBY_URL || "",
+      accounts:
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+    },
+    goerli: {
+      blockGasLimit: 30_000_000,
+      url: process.env.GOERLI_URL || "",
+      accounts:
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+    },
+    ftm: {
+      blockGasLimit: 30_000_000,
+      url: "https://rpc.testnet.fantom.network/",
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },

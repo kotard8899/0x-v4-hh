@@ -26,29 +26,25 @@ async function main() {
   // 1. deploy InitialMigration
   const initialMigration = await InitialMigration.deploy(deployer.address);
   await initialMigration.deployed();
-  console.log("initialMigration deployed to:", initialMigration.address);
 
   // 2. deploy ZeroEx
   const zeroEx = await ZeroEx.deploy(initialMigration.address);
   await zeroEx.deployed();
-  console.log("zeroEx deployed to:", zeroEx.address);
 
   // 3. deploy features
   const ownableFeature = await OwnableFeature.deploy();
-  console.log("ownableFeature deployed to:", ownableFeature.address);
-
   const simpleFunctionRegistryFeature = await SimpleFunctionRegistryFeature.deploy();
-  console.log("simpleFunctionRegistryFeature deployed to:", simpleFunctionRegistryFeature.address);
-
   const eRC165Feature = await ERC165Feature.deploy();
-  console.log("eRC165Feature deployed to:", eRC165Feature.address);
-
   // 0xc7784... = rinkeby WETH.address
   const eRC721OrdersFeature = await ERC721OrdersFeature.deploy(zeroEx.address,"0xc778417E063141139Fce010982780140Aa0cD5Ab");
-  console.log("eRC721OrdersFeature deployed to:", eRC721OrdersFeature.address);
-
   const eRC1155OrdersFeature = await ERC1155OrdersFeature.deploy(zeroEx.address,"0xc778417E063141139Fce010982780140Aa0cD5Ab");
   await eRC1155OrdersFeature.deployed();
+
+  console.log("zeroEx deployed to:", zeroEx.address);
+  console.log("ownableFeature deployed to:", ownableFeature.address);
+  console.log("simpleFunctionRegistryFeature deployed to:", simpleFunctionRegistryFeature.address);
+  console.log("eRC165Feature deployed to:", eRC165Feature.address);
+  console.log("eRC721OrdersFeature deployed to:", eRC721OrdersFeature.address);
   console.log("eRC1155OrdersFeature deployed to:",eRC1155OrdersFeature.address);
 
   // 4. initialize zeroEx
